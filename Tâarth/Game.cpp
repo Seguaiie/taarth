@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	_window.create(sf::VideoMode(1000, 800), "taarth");
+	_window.create(sf::VideoMode(1000, 1100), "taarth");
 }
 
 Game::~Game()
@@ -12,6 +12,8 @@ Game::~Game()
 
 void Game::run()
 {
+	BoardManager boardManager;
+
 	while (_window.isOpen())
 	{
 		sf::Event event;
@@ -21,6 +23,9 @@ void Game::run()
 				_window.close();
 		}
 		_window.clear();
+
+		boardManager.setupBoard(_window);
+
 		_window.display();
 	}
 }
