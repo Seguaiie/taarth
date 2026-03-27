@@ -1,0 +1,45 @@
+# ===== Visual Studio =====
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.vcxproj
+*.sln
+
+# ===== Build =====
+Debug/
+Release/
+x64/
+x86/
+build/
+out/
+
+# ===== Objets compilés =====
+*.obj
+*.o
+*.pch
+*.pdb
+*.ilk
+
+# ===== Executables =====
+*.exe
+*.out
+*.app
+
+# ===== Logs =====
+*.log
+
+# ===== Cache =====
+*.cache
+*.tmp
+
+# ===== CMake (si jamais) =====
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# ===== Autres =====
+*.user
+*.opensdf
+*.sdf
+*.ipch
