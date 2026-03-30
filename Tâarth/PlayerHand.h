@@ -13,7 +13,7 @@ public:
 	~PlayerHand();
 
 	//guetters
-	card getCard(int index);
+	card getCard(int index) const;
 
 
 	//setters

@@ -42,11 +42,6 @@ void Containers::draw(sf::RenderWindow& window)
 		_shape.setFillColor(sf::Color::Red);
 	}
 
-	if (_reserved == true)
-	{
-		_shape.setFillColor(sf::Color::Blue);
-	}
-
 	window.draw(_shape);
 }
 

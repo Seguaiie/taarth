@@ -12,10 +12,34 @@ BoardManager::~BoardManager()
 {
 }
 
-void BoardManager::setupBoard(RenderWindow& window)
+std::queue<card> BoardManager::setupBoard()
 {
+	_deck.shuffle();
+
+	for (int i = 0; i < _deck.size(); i++) {
+		_inGameDeck.push(_deck.getCard(i));
+	}
+	
+	//initialisation des reserve 
+	for (int i= 0; i < 10; i++) {
+
+		card c = _inGameDeck.front();
+		_inGameDeck.pop();
+
+		if (i < 5) {
+			_leftReserve.push_back(c);
+		}
+		else {
+			_rightReserve.push_back(c);
+		}
+
+		
+	}
+
+	//initialise la réserre et place les cartes de la réserve sur le jeu 
 	for (int i = 0; i < 7; i++)
 	{
+
 		for (int j = 0; j < 7; j++)
 		{
 			_playerBoard[i][j].setPosition(100.f + j * 125.f, 850.f - i * 125.f);
@@ -23,14 +47,29 @@ void BoardManager::setupBoard(RenderWindow& window)
 			if (i >= 1 && i <= 5 && j == 0) {
 
 				_playerBoard[i][j].setReserved(true);
-				_leftReserve.push_back(_playerBoard[i][j]);
+				_playerBoard[i][j].addCard(_leftReserve[i - 1]);
 			}
-			else if(i >= 1 && i <= 5 && j == 6){
-				
+			else if (i >= 1 && i <= 5 && j == 6) {
+
 				_playerBoard[i][j].setReserved(true);
-				_rightReserve.push_back(_playerBoard[i][j]);
+				_playerBoard[i][j].addCard(_rightReserve[i - 1]);
+
 			}
 
+			
+		}
+	}
+
+	return _inGameDeck;
+	
+}
+
+void BoardManager::draw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
 			_playerBoard[i][j].draw(window);
 		}
 	}

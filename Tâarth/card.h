@@ -12,6 +12,8 @@ public:
 	card();
 	card(std::string name, std::string description, int health, int attack);
 	~card();
+	
+
 
 	// Getters
 	std::string getName() const;

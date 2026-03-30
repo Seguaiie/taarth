@@ -1,5 +1,9 @@
 #include "Deck.h"
+#include <algorithm>
+#include <random>
+#include <iostream>
 
+using namespace std;
 Deck::Deck()
 {
 
@@ -8,20 +12,20 @@ Deck::Deck()
 		//setup mosketman 
 		if (i < 21) {
 
-			_cards[i] = card("Mousquetaire", "Plus que l'on est mieux c'est.", 6, 1);
+			_cards.push_back(card("Mousquetaire", "Plus que l'on est mieux c'est.", 6, 1));
 		}
 		//setup CAVALIER
 		else if(i > 21 && i < 31)  {
 				
-			_cards[i] = card("Cavalier", "Unite mobile.", 8, 5);
+			_cards.push_back(card("Cavalier", "Unite mobile.", 8, 5)) ;
 		}
 		//setup éclaireur
 		else if (i > 31 && i < 36) {
-			_cards[i] = card("Eclaireur", "Unite de reconnaissance.", 0, 0);
+			_cards.push_back(card("Eclaireur", "Unite de reconnaissance.", 0, 0));
 		}
 		//setup canon
 		else if (i > 36 && i < 43) {
-			_cards[i] = card("Canon", "Unite de siege.", 6, 3);
+			_cards.push_back(card("Canon", "Unite de siege.", 6, 3));
 		}
 
 
@@ -32,4 +36,28 @@ Deck::Deck()
 Deck::~Deck()
 {
 
+}
+
+void Deck::shuffle()
+{
+	std::mt19937 rng(std::random_device{}());
+	std::shuffle(_cards.begin(), _cards.end(), rng);
+}
+
+void Deck::print()
+{
+	for (int i = 0; i < _cards.size(); i++) {
+
+		cout << _cards[i].getName() << endl;
+	}
+}
+
+int Deck::size()
+{
+	return _cards.size();
+}
+
+card Deck::getCard(int index)
+{
+	return _cards[index];
 }

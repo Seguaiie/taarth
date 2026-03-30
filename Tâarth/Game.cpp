@@ -1,5 +1,8 @@
 #include "Game.h"
 
+using namespace sf;
+using namespace std;
+
 Game::Game()
 {
 	_window.create(sf::VideoMode(1000, 1100), "taarth");
@@ -9,10 +12,10 @@ Game::~Game()
 {
 }
 
-
 void Game::run()
 {
-	BoardManager boardManager;
+	
+	_boardManager.setupBoard();
 
 	while (_window.isOpen())
 	{
@@ -24,7 +27,9 @@ void Game::run()
 		}
 		_window.clear();
 
-		boardManager.setupBoard(_window);
+	
+		//plateau de jeu avec la réseve initialisé
+		_boardManager.draw(_window);
 
 		_window.display();
 	}

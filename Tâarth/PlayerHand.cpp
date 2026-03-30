@@ -8,7 +8,7 @@ PlayerHand::~PlayerHand()
 {
 }
 
-card PlayerHand::getCard(int index)
+card PlayerHand::getCard(int index) const
 {
 	return _hand[index].getCard();
 }
