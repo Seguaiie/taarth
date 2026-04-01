@@ -3,6 +3,7 @@
 #include "BoardManager.h"
 #include "Player.h"
 #include "Deck.h"
+#include "queue"
 
 
 class Game
@@ -12,12 +13,14 @@ private:
 	BoardManager _boardManager;
 	Player _player1;
 	Player _player2;
-
+	std::queue<card> _inGameDeck;
 
 public:
 	Game();
 	~Game();
 
+
 	void run();
+	void setHands();
 };
 

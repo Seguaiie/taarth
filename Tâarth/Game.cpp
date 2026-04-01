@@ -14,9 +14,8 @@ Game::~Game()
 
 void Game::run()
 {
+	_inGameDeck = _boardManager.setupBoard();
 	
-	_boardManager.setupBoard();
-
 	while (_window.isOpen())
 	{
 		sf::Event event;
@@ -32,5 +31,22 @@ void Game::run()
 		_boardManager.draw(_window);
 
 		_window.display();
+	}
+}
+
+void Game::setHands()
+{
+	for (int i = 0; i < 7; i++) {
+
+		card c = _inGameDeck.front();
+		_player1.addCardToHand(c);
+		_inGameDeck.pop();
+	}
+
+	for (int i = 0; i < 7; i++) {
+
+		card c = _inGameDeck.front();
+		_player2.addCardToHand(c);
+		_inGameDeck.pop();
 	}
 }
