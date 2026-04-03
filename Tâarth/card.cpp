@@ -1,5 +1,8 @@
 #include "card.h"
 
+using namespace std;
+using namespace sf;
+
 card::card()
 {
 	_name = "";
@@ -60,4 +63,14 @@ void card::setHealth(int health)
 void card::setAttack(int attack)
 {
 	_attack = attack;
+}
+
+void card::displayCard(sf::RenderWindow& window, float posX, float posY) const
+{
+	RectangleShape cardShape;
+	cardShape.setSize(Vector2f(50.f, 75.f));
+	cardShape.setFillColor(Color::White);
+	cardShape.setPosition(posX, posY);
+
+	window.draw(cardShape);
 }

@@ -14,6 +14,7 @@ private:
 	Player _player1;
 	Player _player2;
 	std::queue<card> _inGameDeck;
+	int _gameState = 0; 
 
 public:
 	Game();
@@ -22,5 +23,6 @@ public:
 
 	void run();
 	void setHands();
+	void gameStateHandler();
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <SFML/Graphics.hpp>
 class card
 {
 private:
@@ -26,6 +26,8 @@ public:
 	void setDescription(const std::string& description);
 	void setHealth(int health);
 	void setAttack(int attack);
+
+	void displayCard(sf::RenderWindow& window, float posX, float posY) const;
 
 
 };

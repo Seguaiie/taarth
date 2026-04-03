@@ -1,6 +1,7 @@
 #pragma once
 #include "card.h"
-
+#include <SFML/Graphics.hpp>
+#include <iostream>
 class Player
 {
 	private:
@@ -23,6 +24,8 @@ class Player
 
 		int countNumberOfCards() const;
 		card removeCardFromHand(int index);
+
+		void displayHand(sf::RenderWindow& window) const;
 
 
 };

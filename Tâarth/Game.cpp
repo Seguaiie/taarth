@@ -14,8 +14,6 @@ Game::~Game()
 
 void Game::run()
 {
-	_inGameDeck = _boardManager.setupBoard();
-	
 	while (_window.isOpen())
 	{
 		sf::Event event;
@@ -26,9 +24,12 @@ void Game::run()
 		}
 		_window.clear();
 
-	
-		//plateau de jeu avec la réseve initialisé
-		_boardManager.draw(_window);
+		_inGameDeck = _boardManager.setupBoard();
+		setHands();
+
+		gameStateHandler();
+		_gameState = 1;
+		gameStateHandler();
 
 		_window.display();
 	}
@@ -36,17 +37,43 @@ void Game::run()
 
 void Game::setHands()
 {
-	for (int i = 0; i < 7; i++) {
+	// Distribuer les cartes aux joueurs
+	for (int i = 0; i < 7; i++) {		
 
+		// Distribuer une carte au joueur 1
 		card c = _inGameDeck.front();
 		_player1.addCardToHand(c);
 		_inGameDeck.pop();
-	}
-
-	for (int i = 0; i < 7; i++) {
-
-		card c = _inGameDeck.front();
-		_player2.addCardToHand(c);
+		
+		// Distribuer une carte au joueur 2
+		card c2 = _inGameDeck.front();
+		_player2.addCardToHand(c2);
 		_inGameDeck.pop();
+	}
+}
+
+void Game::gameStateHandler()
+{
+	switch (_gameState)
+	{
+		//affiche seulement le plateau de jeu
+		case 0: 
+			_boardManager.draw(_window);
+			break;
+
+			//affiche seulement les cartes en main du joueur 1
+		case 1:
+			_window.clear();
+			_player1.displayHand(_window);
+			break;
+
+			//affiche les cartes en main du joueur 2
+		case 2:
+			_window.clear();
+			_player2.displayHand(_window);
+			break;
+
+		default:
+			break;
 	}
 }

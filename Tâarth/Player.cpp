@@ -1,5 +1,8 @@
 #include "Player.h"
 
+using namespace std;
+using namespace sf;
+
 Player::Player()
 {
 	_handIsEmpty = true;
@@ -80,4 +83,23 @@ card Player::removeCardFromHand(int index)
 	_hand[index] = card();
 
 	return oldCard;
+}
+
+
+
+void Player::displayHand(sf::RenderWindow& window) const
+{
+
+	if (!isHandEmpty())
+	{
+		int index = 0;
+
+		do {
+			_hand[index].displayCard(window, 200.f + index * 100.f, 300.f);
+			
+			cout << "index: "  << index<< _hand[index].getName() << endl;
+			index++;
+
+		} while (isCardEmpty(index) == false);
+	}
 }
