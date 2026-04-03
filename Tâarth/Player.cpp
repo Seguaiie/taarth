@@ -5,70 +5,48 @@ using namespace sf;
 
 Player::Player()
 {
-	_handIsEmpty = true;
-	for (int i = 0; i < 7; i++)
-	{
-		_hand[i] = card();
-	}
 }
 
 Player::~Player()
 {
-	_handIsEmpty = true;
-
-	for (int i = 0; i < 7; i++)
-	{
-		_hand[i] = card();
-	}
+	
 }
 
 void Player::addCardToHand(const card& newCard)
 {
 	for (int i = 0; i < 7; i++)
 	{
-		if (_hand[i].getName() == "")
+		if (_hand[i].isEmpty() == true)
 		{
-			_hand[i] = newCard;
+			_hand[i].addCard(newCard);
 			break;
 		}
 	}
 }
 
-
-
 card Player::getCard(int index) const
 {
-	return _hand[index];
+	return _hand[index].getCard();
 }
 
 bool Player::isHandEmpty() const
 {
 	for (int i = 0; i < 7; i++)
 	{
-		if (_hand[i].getName() != "")
+		if (_hand[i].isEmpty() == false)
 		{
 			return false;
 		}
 	}
 
-	return false;
-}
-
-bool Player::isCardEmpty(int index) const
-{
-	if (_hand[index].getName() == "")
-	{
-		return true;
-	}
-
-	return false;
+	return true;
 }
 
 int Player::countNumberOfCards() const
 {
 	for (int i = 0; i < 7; i++)
 	{
-		if (_hand[i].getName() != "")
+		if (_hand[i].isEmpty() == false)
 		{
 			return i + 1;
 		}
@@ -78,28 +56,36 @@ int Player::countNumberOfCards() const
 
 card Player::removeCardFromHand(int index)
 {
-	card oldCard = _hand[index];
+	card oldCard = _hand[index].getCard();
 
-	_hand[index] = card();
+	_hand[index].setEmpty(true);
 
 	return oldCard;
 }
 
-
-
-void Player::displayHand(sf::RenderWindow& window) const
+void Player::displayHand(sf::RenderWindow& window) 
 {
 
-	if (!isHandEmpty())
+	if (isHandEmpty() == false)
+	{	
+		for (int i = 0; i < 7; i++) {
+			_hand[i].setPosition(100.f + i * 125.f, 500.f);
+			_hand[i].draw(window);
+
+		}
+	}
+	else {
+		cout << "Hand is empty" << endl;
+	}
+}
+
+bool Player::checkHandClicked(sf::RenderWindow& window)
+{
+	for (int i = 0; i < 7; i++)
 	{
-		int index = 0;
-
-		do {
-			_hand[index].displayCard(window, 200.f + index * 100.f, 300.f);
-			
-			cout << "index: "  << index<< _hand[index].getName() << endl;
-			index++;
-
-		} while (isCardEmpty(index) == false);
+		if (_hand[i].checkIfClicked(window) == true)
+		{
+			return true;
+		}
 	}
 }

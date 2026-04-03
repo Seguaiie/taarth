@@ -30,10 +30,30 @@ card Containers::getCard() const
 	return _card;
 }
 
+bool Containers::checkIfClicked(sf::RenderWindow& window)
+{
+
+	sf::Vector2i mousePixelPos = sf::Mouse::getPosition(window);
+	sf::Vector2f mousePos = window.mapPixelToCoords(mousePixelPos);
+
+	if (_shape.getGlobalBounds().contains(mousePos))
+	{
+		// La souris est sur le container
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			_clicked = true;
+			return true;
+		}
+	}
+}
+
 void Containers::draw(sf::RenderWindow& window)
 {
-	
-	if (_empty == true)
+	if (_clicked == true)
+	{
+		_shape.setFillColor(sf::Color::Yellow);
+	}
+	else if (_empty == true)
 	{
 		_shape.setFillColor(sf::Color::Green);
 	}

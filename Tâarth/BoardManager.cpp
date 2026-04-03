@@ -36,7 +36,7 @@ std::queue<card> BoardManager::setupBoard()
 		
 	}
 
-	//initialise la réserre et place les cartes de la réserve sur le jeu 
+	//initialise la réservee et place les cartes de la réserve sur le jeu 
 	for (int i = 0; i < 7; i++)
 	{
 
@@ -87,4 +87,19 @@ void BoardManager::resetBoard()
 		}
 	}
 
+}
+
+bool BoardManager::checkIfCardClicked(sf::RenderWindow& window)
+{
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (_playerBoard[i][j].checkIfClicked(window) == true)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }

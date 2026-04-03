@@ -10,6 +10,7 @@ private:
 	card _card;
 	sf::RectangleShape _shape;
 	bool _reserved = false;
+	bool _clicked = false;
 
 
 public:
@@ -33,6 +34,7 @@ public:
 	bool isEmpty() const;
 	bool isReserved() const;
 	card getCard() const;
+	bool checkIfClicked(sf::RenderWindow& window);
 
 };
 

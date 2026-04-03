@@ -27,9 +27,10 @@ void Game::run()
 		_inGameDeck = _boardManager.setupBoard();
 		setHands();
 
-		gameStateHandler();
-		_gameState = 1;
-		gameStateHandler();
+		gameStateHandler(1);
+		
+		checkClickedCard();
+		
 
 		_window.display();
 	}
@@ -52,8 +53,11 @@ void Game::setHands()
 	}
 }
 
-void Game::gameStateHandler()
+void Game::gameStateHandler(int gameState)
 {
+	_window.clear();
+	_gameState = gameState;
+
 	switch (_gameState)
 	{
 		//affiche seulement le plateau de jeu
@@ -65,15 +69,37 @@ void Game::gameStateHandler()
 		case 1:
 			_window.clear();
 			_player1.displayHand(_window);
+
+			if (_player1.checkHandClicked(_window) == true) {
+				_gameState = 0;
+			}
 			break;
 
 			//affiche les cartes en main du joueur 2
 		case 2:
 			_window.clear();
 			_player2.displayHand(_window);
+
+			if (_player2.checkHandClicked(_window)) {
+				_gameState = 0;
+			}
+
 			break;
 
 		default:
 			break;
 	}
+}
+
+bool Game::checkClickedCard()
+{
+	// Vérifier si une carte a été cliquée sur le plateau de jeu
+	if (_gameState == 0) {
+
+		if (_boardManager.checkIfCardClicked(_window) == true) {
+
+			return true;
+		}
+	}
+	return false;
 }

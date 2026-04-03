@@ -23,6 +23,7 @@ public:
 
 	void run();
 	void setHands();
-	void gameStateHandler();
+	void gameStateHandler(int gameState);
+	bool checkClickedCard();
 };
 

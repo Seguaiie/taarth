@@ -21,9 +21,15 @@ public:
 	~BoardManager();
 
 
+	//getteurs
+
+
 	std::queue<card> setupBoard();
 	void draw(sf::RenderWindow& window);
 	void resetBoard();
+
+	bool checkIfCardClicked(sf::RenderWindow& window);
+
 };
 
 
