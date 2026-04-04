@@ -27,7 +27,10 @@ Deck::Deck()
 		else if (i > 36 && i < 43) {
 			_cards.push_back(card("Canon", "Unite de siege.", 6, 3));
 		}
-		else if (i > 43 && i < 63) {
+		else if (i == 44) {
+			_cards.push_back(card("Prophète", "", 0, 0));
+		}
+		else if (i > 44 && i < 63) {
 			_cards.push_back(card("Dummy", "", 6, 3));
 		}
 

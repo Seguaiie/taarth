@@ -43,3 +43,6 @@ Makefile
 *.opensdf
 *.sdf
 *.ipch
+
+# ===== Image =====
+*.png

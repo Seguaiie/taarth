@@ -9,6 +9,8 @@ class Player
 	private:
 		Containers _hand[7];
 		bool _handIsEmpty;
+		card _selectedCard;
+		int _indexSelectedCard;
 
 		
 
@@ -22,7 +24,9 @@ class Player
 
 		//getteur
 		card getCard(int index) const;
+		card getSelectedCard() const;
 		bool isHandEmpty() const;
+		int getIndexSelectedCard() const;
 
 
 		int countNumberOfCards() const;

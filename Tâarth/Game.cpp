@@ -6,6 +6,8 @@ using namespace std;
 Game::Game()
 {
 	_window.create(sf::VideoMode(1000, 1100), "taarth");
+	_inGameDeck = _boardManager.setupBoard();
+	setHands();
 }
 
 Game::~Game()
@@ -22,17 +24,13 @@ void Game::run()
 			if (event.type == sf::Event::Closed)
 				_window.close();
 		}
-		_window.clear();
 
-		_inGameDeck = _boardManager.setupBoard();
-		setHands();
+			_window.clear();
 
-		gameStateHandler(1);
-		
-		checkClickedCard();
-		
+			gameStateHandler();
+			_window.display();
 
-		_window.display();
+			sf::sleep(sf::milliseconds(95));
 	}
 }
 
@@ -53,35 +51,74 @@ void Game::setHands()
 	}
 }
 
-void Game::gameStateHandler(int gameState)
+void Game::gameStateHandler()
 {
-	_window.clear();
-	_gameState = gameState;
 
 	switch (_gameState)
 	{
 		//affiche seulement le plateau de jeu
 		case 0: 
 			_boardManager.draw(_window);
+
+			if (checkClickedCard() == true) {
+
+				if (_curentPlayer == 1) {
+
+					int selectedCard = _player1.getIndexSelectedCard();
+					_player1.removeCardFromHand(selectedCard);
+					
+					if (_boardManager.placeCardOnBoard(_selected, _boardManager.getX(), _boardManager.getY(), 1) == true) {
+						_curentPlayer = 2;
+						_gameState = 2;
+					}
+					else{
+						cout << "Invalid move, try again!" << endl;
+					}
+					
+					break;
+				}
+				else if (_curentPlayer == 2) {
+
+					int selectedCard = _player2.getIndexSelectedCard();
+					_player2.removeCardFromHand(selectedCard);
+				
+					if (_boardManager.placeCardOnBoard(_selected, _boardManager.getX(), _boardManager.getY(), 2) == true) {
+						
+						_curentPlayer = 1;
+						_gameState = 1;
+					}
+					else {
+						cout << "Invalid move, try again!" << endl;
+					}
+					break;
+				}
+			}
 			break;
 
 			//affiche seulement les cartes en main du joueur 1
 		case 1:
+			cout << "Player 1's turn" << endl;
+
 			_window.clear();
 			_player1.displayHand(_window);
 
 			if (_player1.checkHandClicked(_window) == true) {
 				_gameState = 0;
+				_selected = _player1.getSelectedCard();
 			}
 			break;
 
 			//affiche les cartes en main du joueur 2
 		case 2:
+			cout << "Player 2's turn" << endl;
+
+			_curentPlayer = 2;
 			_window.clear();
 			_player2.displayHand(_window);
 
-			if (_player2.checkHandClicked(_window)) {
+			if (_player2.checkHandClicked(_window) == true) {
 				_gameState = 0;
+				_selected = _player2.getSelectedCard();
 			}
 
 			break;

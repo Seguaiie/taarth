@@ -18,7 +18,7 @@ void Player::addCardToHand(const card& newCard)
 	{
 		if (_hand[i].isEmpty() == true)
 		{
-			_hand[i].addCard(newCard);
+			_hand[i].addCard(newCard, 0);
 			break;
 		}
 	}
@@ -27,6 +27,11 @@ void Player::addCardToHand(const card& newCard)
 card Player::getCard(int index) const
 {
 	return _hand[index].getCard();
+}
+
+card Player::getSelectedCard() const
+{
+	return _selectedCard;
 }
 
 bool Player::isHandEmpty() const
@@ -40,6 +45,11 @@ bool Player::isHandEmpty() const
 	}
 
 	return true;
+}
+
+int Player::getIndexSelectedCard() const
+{
+	return _indexSelectedCard;
 }
 
 int Player::countNumberOfCards() const
@@ -85,7 +95,12 @@ bool Player::checkHandClicked(sf::RenderWindow& window)
 	{
 		if (_hand[i].checkIfClicked(window) == true)
 		{
+			_hand[i].resetClicked();
+			_selectedCard = _hand[i].getCard();
+			_indexSelectedCard = i;
+			cout << "Card " << i + 1 << " clicked: " << _hand[i].getCard().getName() << endl;
 			return true;
+
 		}
 	}
 }

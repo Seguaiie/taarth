@@ -1,18 +1,22 @@
 #include "Containers.h"
+using namespace sf;
+using namespace std;
 
 Containers::Containers()
 {
 	_shape.setSize(sf::Vector2f(50.f, 75.f));
+	_empty = true;
 }
 
 Containers::~Containers()
 {
 }
 
-void Containers::addCard(const card& newCard)
+void Containers::addCard(const card& newCard, int player)
 {
 	_card = newCard;
 	_empty = false;
+	_playerPacedCard = player;
 }
 
 bool Containers::isEmpty() const
@@ -30,39 +34,87 @@ card Containers::getCard() const
 	return _card;
 }
 
+int Containers::getPlayerPacedCard() const
+{
+	return _playerPacedCard;
+}
+
 bool Containers::checkIfClicked(sf::RenderWindow& window)
 {
 
 	sf::Vector2i mousePixelPos = sf::Mouse::getPosition(window);
 	sf::Vector2f mousePos = window.mapPixelToCoords(mousePixelPos);
 
+	bool isPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
 	if (_shape.getGlobalBounds().contains(mousePos))
 	{
-		// La souris est sur le container
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		// Détecte seulement le moment où le bouton vient d'être pressé
+		if (isPressed == true )
 		{
+			_wasPressed = true;
 			_clicked = true;
 			return true;
 		}
 	}
+
+	// Reset quand le bouton est relâché
+	if (!isPressed)
+		_wasPressed = false;
+
+	return false;
 }
 
 void Containers::draw(sf::RenderWindow& window)
 {
-	if (_clicked == true)
+
+	if( _reserved == true)
 	{
-		_shape.setFillColor(sf::Color::Yellow);
+		_texture.loadFromFile("ressources/art/backCover.png");
+
+		_shape.setTexture(&_texture);
+		window.draw(_shape);
 	}
 	else if (_empty == true)
 	{
-		_shape.setFillColor(sf::Color::Green);
+		_texture.loadFromFile("ressources/art/empty.png");
+
+		_shape.setTexture(&_texture);
+		window.draw(_shape);
+	}
+	else if (_empty == false)
+	{
+		string cardName = _card.getName();
+
+		if (cardName == "Mousquetaire")
+		{
+			_texture.loadFromFile("ressources/art/mousquetaire.png");
+		}
+		else if (cardName == "Cavalier")
+		{
+			_texture.loadFromFile("ressources/art/cavalier.png");
+		}
+		else if (cardName == "Eclaireur")
+		{
+			_texture.loadFromFile("ressources/art/eclaireur.png");
+		}
+		else if (cardName == "Canon")
+		{
+			_texture.loadFromFile("ressources/art/canon.png");
+		}
+		else if (cardName == "Prophète")
+		{
+			_texture.loadFromFile("ressources/art/prohete.png");
+		}
+
+		_shape.setTexture(&_texture);
+		window.draw(_shape);
 	}
 	else
 	{
-		_shape.setFillColor(sf::Color::Red);
+		_shape.setFillColor(Color::Red);
+		window.draw(_shape);
 	}
-
-	window.draw(_shape);
 }
 
 void Containers::setPosition(float x, float y)
@@ -78,4 +130,9 @@ void Containers::setReserved(bool reserved)
 void Containers::setEmpty(bool empty)
 {
 	_empty = empty;
+}
+
+void Containers::resetClicked()
+{
+	_clicked = false;
 }

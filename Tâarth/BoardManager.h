@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <queue>
 #include <vector>
-
+#include "card.h"
 
 class BoardManager
 {
@@ -14,15 +14,21 @@ private:
 	std::vector<card> _leftReserve;
 	std::vector<card> _rightReserve;
 	std::queue<card> _inGameDeck;
+	card _selectedCard;
+	int _x, _y;
 
 public:
 
 	BoardManager();
 	~BoardManager();
 
+	//getters
+	card getSelectedCard() const;
+	int getX() const;
+	int getY() const;
 
-	//getteurs
 
+	bool placeCardOnBoard(card &card, int x, int y, int player);
 
 	std::queue<card> setupBoard();
 	void draw(sf::RenderWindow& window);
